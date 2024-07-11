@@ -1,0 +1,9 @@
+pip install langchain_community==0.1.0
+pip install crewAI==0.1.0
+pip install langchain==0.0.200
+pip install chromadb==0.3.21
+pip install transformers==4.26.1
+pip install unstructured==0.6.5
+pip install python-docx==0.8.11
+pip install ollama
+pip install sentence_transformers
