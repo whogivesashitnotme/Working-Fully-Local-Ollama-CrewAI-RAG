@@ -31,7 +31,7 @@ def process_documents(directory):
         documents.extend(loader.load())
 
     if not documents:
-        print("⭐No documents found in the directory.")
+        print("⭐ No documents found in the directory.")
         return
 
     text_splitter = RecursiveCharacterTextSplitter(chunk_size=1000, chunk_overlap=200)
@@ -45,9 +45,10 @@ callback_manager = CallbackManager([StreamingStdOutCallbackHandler()])
 ollama = Ollama(model="llama3", callback_manager=callback_manager)
 
 # Create a RAG tool
-def rag_search(**kwargs):
-    tool_input = kwargs.get('tool_input', '')
+def rag_search(tool_input):
     query = tool_input
+    if isinstance(tool_input, dict):
+        query = tool_input.get('tool_input', '')
     results = vectordb.similarity_search(query, k=3)
     context = "\n".join([f"Source: {doc.metadata.get('source', 'Unknown')}\nContent: {doc.page_content}" for doc in results])
     prompt = f"Context: {context}\n\nQuestion: {query}\n\nProvide an answer based on the context and cite the sources used."
@@ -61,22 +62,13 @@ def rag_search(**kwargs):
 rag_tool = Tool(
     name="rag search",
     func=rag_search,
-    description="""
-    Search the vector database for relevant information and provide cited answers.
-    Always use the following schema when calling this tool:
-    {
-        "tool_name": "rag search",
-        "arguments": {
-            "tool_input": "your query here"
-        }
-    }
-    """
+    description="Search the vector database for relevant information and provide cited answers."
 )
 
 # Create agents with the RAG tool and Ollama LLM
 agent1 = Agent(
     role='Beverage Chemist',
-    goal='Write a stepwise overview of the best coffee brew process',
+    goal='Analyze coffee brewing chemistry and process to optimize flavor and quality.',
     backstory='Expert in beverage chemistry.',
     tools=[rag_tool],
     verbose=True,
@@ -85,9 +77,9 @@ agent1 = Agent(
 )
 
 agent2 = Agent(
-    role='Professional Brewer and Writer',
-    goal='Streamline the coffee brewing process and write a report',
-    backstory='Professional brewer with extensive experience.',
+    role='Writer',
+    goal='Create a detailed brewing manual for the best coffee',
+    backstory='Experienced brewer and writer.',
     tools=[rag_tool],
     verbose=True,
     allow_delegation=False,
@@ -97,33 +89,24 @@ agent2 = Agent(
 # Create tasks with explicit instructions on tool usage
 task1 = Task(
     description='''
-    Write a stepwise overview of the best coffee brew process.
-    IMPORTANT: Use the RAG search tool with the following schema:
-    {
-        "tool_name": "rag search",
-        "arguments": {
-            "tool_input": "your query here"
-        }
-    }
+    Analyze coffee brewing chemistry and process for drip, espresso, french press, and Turkish brewing methods. Then write an overview for optimal brewing in all use cases. Cite your sources.
+
+    If you have to use the RAG search tool in your work, ask your question directly in normal sentence format: 'your full query here'.
+    Once finished, place your full answer after "Final Answer:"
     ''',
     agent=agent1,
-    expected_output='a detailed guide.'
+    expected_output='Chemical and process report for coffee brewing.'
 )
 
 task2 = Task(
     description='''
-    Streamline the coffee brewing process and write a report.
-    Always print your full answer in proper format. MINIMUM OF 4 Paragraphs.
-    IMPORTANT: Use the RAG search tool with the following schema:
-    {
-        "tool_name": "rag search",
-        "arguments": {
-            "tool_input": "your query here"
-        }
-    }
+    Develop a stepwise brewing manual covering all brewing methods and desired brew strengths based on the information received. Cite your sources.
+
+    If you have to use the RAG search tool in your work, ask your question directly in normal sentence format: 'your full query here'.
+    Once finished, place your full answer after "Final Answer:"
     ''',
     agent=agent2,
-    expected_output='A stepwise brewing instruction manual.',
+    expected_output='Detailed brewing instruction manual.',
     output_file='The_Perfect_Cup.txt'
 )
 
@@ -136,13 +119,13 @@ crew = Crew(
 )
 
 if __name__ == "__main__":
-    print("⭐Processing documents and updating the vector database...")
-    process_documents("./document_directory")
+    print("⭐ Processing documents and updating the vector database...")
+    process_documents("./Feed")
     
     if vectordb._collection.count() == 0:
-        print("⭐The vector database is empty. Please add some documents to the 'document_directory' folder and run the script again.")
+        print("⭐ The vector database is empty. Please add some documents to the 'Feed' folder and run the script again.")
     else:
-        print("⭐Starting the CrewAI workflow...")
+        print("⭐ Starting the CrewAI workflow...")
         result = crew.kickoff()
         
         print("\nFinal Result:")
