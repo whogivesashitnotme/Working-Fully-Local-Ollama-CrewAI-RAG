@@ -17,7 +17,9 @@ agents:
           Action: combined_search
           Action Input: {"query": "Your query here"}
 
-          Cite all sources accurately; papers by title and videos by URL.
+          After the task is complete place your entire answer after
+          Final Answer: "Whole work here"
+          Cite all sources accurately; papers by title and videos by URL, NEVER make up citations titles or URLS that you did not directly use/access.
 
         expected_output: 'A detailed list of all factors to follow and consider when making the best possible pour over/drip coffee, with citations listed in the post.'
 
@@ -33,7 +35,9 @@ agents:
           Given the data by your prior coworker, create/compile a step-by-step manual for the best pour over coffee brewing process for quality and flavor.
           Supplement with additional expert tips and error correction only when needed or when your additions are true.
 
-          Cite all sources accurately, distinguishing videos by URL and papers by title at the end of your final report.
+          After the task is complete place your entire answer after
+          Final Answer: "Whole work here"
+          Cite all sources accurately; papers by title and videos by URL, NEVER make up citations titles or URLS that you did not directly use/access.
 
         expected_output: 'Comprehensive instruction manual for drip coffee brewing with citations.'
         output_file: 'The_Golden_Cup.txt'
