@@ -1,6 +1,3 @@
-Here's the `requirements.txt` file for the provided list of packages:
-
-```txt
 aifs==0.0.16
 aiohappyeyeballs==2.3.4
 aiohttp==3.9.5
@@ -331,4 +328,3 @@ xmltodict==0.13.0
 yarl==1.9.2
 yt_dlp==2023.8.8
 zstandard==0.21.0
-```
