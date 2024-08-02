@@ -119,6 +119,7 @@ langchain-community
 langchain-core
 langchain-experimental
 langchain-groq
+langchain-huggingface
 langchain-openai
 langchain-text-splitters
 langdetect
