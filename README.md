@@ -1,3 +1,5 @@
+"CURRENTLY FIXING BUGS IT WILL NOT WORK RN"
+
 For my brokies who hate API keys and wallet bloodletting,
 
 AI agents can be semantically picky, so make sure you take advantage of the crew AI tools like expected output and make your descriptions stepwise and concise for best results. I like telling them to cite sources, but you don't have to. You should be able to put just about any file in there that we can read, and it will be added to the vector database and support the agents' reasoning and justification in answers and thoughts. I recommend leaving the small guide rails for tool calling and publishing of work in the task descriptions, however, this shouldn't be strictly necessary anymore. I also recommend a large context window LLM wherever possible (currently using "mistral-nemo:latest" 7B, 128k Context Window) , but you should already know that. Implementations of other tools like DuckDuckGo search and website scraping may come in the future.
