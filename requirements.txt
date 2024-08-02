@@ -310,7 +310,7 @@ xlrd
 XlsxWriter
 yarg
 yarl
-youtubesearchpython
+youtube-search-python
 youtube-transcript-api
 yt-dlp
 zipp
