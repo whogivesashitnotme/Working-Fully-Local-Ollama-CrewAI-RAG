@@ -1,0 +1,39 @@
+agents:
+  - role: 'Beverage Chemist'
+    goal: 'Optimize pour over coffee flavor and quality'
+    backstory: 'Specializes in beverage chemistry and coffee brewing techniques.'
+    tools: [combined_search_tool]
+    verbose: True
+    allow_delegation: False
+    llm: ollama
+    tasks:
+      - description: |
+          Research drip coffee brewing and processes.
+          Compile an overview of optimal techniques, ensuring all variables for the best brew are known and justified.
+          Your report will be passed to the next agent in your team for final write-up; provide them with your best and complete work.
+
+          Utilize the combined search tool for relevant information to all inquiries from papers and expert opinions.
+          
+          Action: combined_search
+          Action Input: {"query": "Your query here"}
+
+          Cite all sources accurately; papers by title and videos by URL.
+
+        expected_output: 'A detailed list of all factors to follow and consider when making the best possible pour over/drip coffee, with citations listed in the post.'
+
+  - role: 'Coffee Brewing Expert'
+    goal: 'Develop a comprehensive brewing manual for the best pour over coffee.'
+    backstory: 'Experienced writer and reporter with a strong knowledge of coffee.'
+    tools: []
+    verbose: True
+    allow_delegation: False
+    llm: ollama
+    tasks:
+      - description: |
+          Given the data by your prior coworker, create/compile a step-by-step manual for the best pour over coffee brewing process for quality and flavor.
+          Supplement with additional expert tips and error correction only when needed or when your additions are true.
+
+          Cite all sources accurately, distinguishing videos by URL and papers by title at the end of your final report.
+
+        expected_output: 'Comprehensive instruction manual for drip coffee brewing with citations.'
+        output_file: 'The_Golden_Cup.txt'
