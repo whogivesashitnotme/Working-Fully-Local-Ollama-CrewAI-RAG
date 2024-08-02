@@ -203,7 +203,6 @@ pdfminer.six==20231228
 pdfplumber==0.11.2
 pfzy==0.3.4
 pickles
-
 hare==0.8.0
 Pillow==10.0.1
 pip==23.2.1
